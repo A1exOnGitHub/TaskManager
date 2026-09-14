@@ -3,7 +3,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Task
 {
-    private static int nextId = 1;
     private String title;
     private String priority;
     private boolean completed;
@@ -16,7 +15,6 @@ public class Task
         this.title = title;
         this.priority = priority;
         this.completed = false;
-        this.id = nextId++;
         this.dueDate = dueDate;
     }
 
