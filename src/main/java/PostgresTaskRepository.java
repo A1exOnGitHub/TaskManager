@@ -34,7 +34,10 @@ public class PostgresTaskRepository implements TaskRepository
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(
+                    "Failed to add task to database.",
+                    e
+            );
         }
     }
 
@@ -57,7 +60,10 @@ public class PostgresTaskRepository implements TaskRepository
 
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(
+                    "Failed to delete task from database.",
+                    e
+            );
         }
     }
 
@@ -84,7 +90,10 @@ public class PostgresTaskRepository implements TaskRepository
 
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(
+                    "Failed to update task from database.",
+                    e
+            );
         }
     }
 
@@ -114,7 +123,10 @@ public class PostgresTaskRepository implements TaskRepository
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(
+                    "Failed to get task from database.",
+                    e
+            );
         }
 
         return tasks;

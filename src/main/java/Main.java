@@ -221,17 +221,25 @@ public class Main extends Application {
                 return;
             }
 
+            try {
+                manager.addTask(
+                        textField.getText(),
+                        priorityBox.getValue(),
+                        datePicker.getValue()
+                );
+                messageLabel.setText("Task added successfully.");
 
-            manager.addTask(
-                    textField.getText(),
-                    priorityBox.getValue(),
-                    datePicker.getValue()
-            );
-            messageLabel.setText("Task added successfully.");
+                textField.clear();
+                priorityBox.setValue("Medium");
+                datePicker.setValue(LocalDate.now());
+            }
 
-            textField.clear();
-            priorityBox.setValue("Medium");
-            datePicker.setValue(LocalDate.now());
+            catch (DatabaseException e)
+            {
+                messageLabel.setText(
+                        "Could not save task. Please try again."
+                );
+            }
         });
 
 
@@ -239,13 +247,20 @@ public class Main extends Application {
         deleteButton.setOnAction(event -> {
             Task selectedTask = taskList.getSelectionModel().getSelectedItem();
 
-            if (selectedTask != null) {
-                manager.deleteTask(selectedTask);
-                searchResults.remove(selectedTask);
-                messageLabel.setText("Task deleted.");
+            try {
+                if (selectedTask != null) {
+                    manager.deleteTask(selectedTask);
+                    searchResults.remove(selectedTask);
+                    messageLabel.setText("Task deleted.");
+                } else {
+                    messageLabel.setText("Please select a task to delete.");
+                }
             }
-            else {
-                messageLabel.setText("Please select a task to delete.");
+
+            catch (DatabaseException e)
+            {
+                messageLabel.setText(
+                        "Could not delete task. Please try again.");
             }
         });
 
@@ -266,14 +281,19 @@ public class Main extends Application {
         editButton.setOnAction(event -> {
             Task selectedTask = taskList.getSelectionModel().getSelectedItem();
 
-            if (selectedTask != null)
-            {
-                textField.setText(selectedTask.getTitle());
-                priorityBox.setValue(selectedTask.getPriority());
-                datePicker.setValue(selectedTask.getDueDate());
+            try {
+                if (selectedTask != null) {
+                    textField.setText(selectedTask.getTitle());
+                    priorityBox.setValue(selectedTask.getPriority());
+                    datePicker.setValue(selectedTask.getDueDate());
+                } else
+                    messageLabel.setText("Please select a task to edit.");
             }
-            else
-                messageLabel.setText("Please select a task to edit.");
+            catch (DatabaseException e)
+            {
+                messageLabel.setText(
+                        "Could not complete task. Please try again.");
+            }
         });
 
         // defines behavior for 'save' button
@@ -298,10 +318,17 @@ public class Main extends Application {
                     messageLabel.setText("Please enter a valid due date.");
                     return;
                 }
-                manager.updateTask(selectedTask, textField.getText(), priorityBox.getValue(), datePicker.getValue());
-                taskList.refresh();
-                textField.clear();
-                messageLabel.setText("Task edited.");
+                try {
+                    manager.updateTask(selectedTask, textField.getText(), priorityBox.getValue(), datePicker.getValue());
+                    taskList.refresh();
+                    textField.clear();
+                    messageLabel.setText("Task edited.");
+                }
+                catch (DatabaseException e)
+                {
+                    messageLabel.setText(
+                            "Could not update task. Please try again.");
+                }
             }
             else
                 messageLabel.setText("Please select task to save.");
