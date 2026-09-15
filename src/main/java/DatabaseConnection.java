@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 public class DatabaseConnection
 {
+
+
     private static final String URL =
             System.getenv("TASK_DB_URL");
 
@@ -23,7 +25,6 @@ public class DatabaseConnection
                             "Database environment variables are missing."
                     );
         }
-
 
 
         return DriverManager.getConnection(

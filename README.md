@@ -118,17 +118,28 @@ Database credentials are not stored directly in the source code.
 task_manager
 ```
 
-2. Create the `tasks` table using the SQL schema above.
+2. Create the `tasks` table using the database schema shown above.
 
-3. Configure the required database environment variables.
+3. Configure the following environment variables before launching the application:
 
-4. Clone the repository.
+```text
+TASK_DB_URL=jdbc:postgresql://localhost:5432/task_manager
+TASK_DB_USER=postgres
+TASK_DB_PASSWORD=your_password
+```
 
-5. From the project directory, run:
+If using IntelliJ IDEA, these variables can be added to the Maven run configuration for `javafx:run`.
+
+4. Clone the repository and open the project.
+
+5. Run the application using:
 
 ```bash
 mvn javafx:run
 ```
+
+The application requires the database environment variables to be available to the Maven process before it starts.
+
 
 ## Testing
 
